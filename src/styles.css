@@ -1,0 +1,44 @@
+@import '~bootstrap/dist/css/bootstrap.min.css';
+html, body {
+    height: 100vh;
+    list-style: none;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+    padding: 0;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-size: 25px;
+    color: black
+}
+
+:disabled {
+    cursor: no-drop;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spin {
+    animation-name: spin;
+    animation-duration: 4000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.form-control.is-warning {
+    border-color: orange !important;
+    padding-right: calc(1.5em + 0.75rem);
+}
+
+.text-warning>p {
+    color: orange !important;
+    font-size: medium !important;
+}

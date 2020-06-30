@@ -1,0 +1,486 @@
+<section class="container mt-5">
+    <form [formGroup]="form">
+        <div class="card shadow-sm p-3 mb-5 bg-white rounded">
+            <h4>Dados do produtor</h4>
+            <hr>
+
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="car">CAR</label>
+                    <input type="text" class="form-control" id="car" formControlName="car" autofocus [ngClass]="{ 'is-invalid': form.controls.car.invalid && form.controls.car.dirty, 'is-valid': form.controls.car.valid }">
+                    <span class="text-danger" *ngIf="form.controls.car.invalid && form.controls.car.dirty">
+                        <p *ngIf="form.controls.car.errors.required">CAR é obrigatório!</p>
+                    </span>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="nomeProdutor">Nome do produtor</label>
+                    <input type="text" class="form-control" id="nomeProdutor" formControlName="nomeProdutor" [ngClass]="{ 'is-invalid': form.controls.nomeProdutor.invalid && form.controls.nomeProdutor.dirty, 'is-valid': form.controls.nomeProdutor.valid }">
+                    <span class="text-danger" *ngIf="form.controls.nomeProdutor.invalid && form.controls.nomeProdutor.dirty">
+                        <p *ngIf="form.controls.nomeProdutor.errors.required">Nome do produtor é obrigatório!</p>
+                    </span>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="responsavel">Responsável</label>
+                    <input type="text" class="form-control" id="responsavel" formControlName="responsavel" [ngClass]="{ 'is-invalid': form.controls.responsavel.invalid && form.controls.responsavel.dirty, 'is-valid': form.controls.responsavel.valid }">
+                    <span class="text-danger" *ngIf="form.controls.responsavel.invalid && form.controls.responsavel.dirty">
+                        <p *ngIf="form.controls.responsavel.errors.required">Responsável é obrigatório!</p>
+                    </span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="responsavelCpf">CPF do responsável</label>
+                    <input type="text" class="form-control" id="responsavelCpf" formControlName="responsavelCpf" [ngClass]="{ 'is-invalid': form.controls.responsavelCpf.invalid && form.controls.responsavelCpf.dirty, 'is-valid': form.controls.responsavelCpf.dirty && form.controls.responsavelCpf.valid }"
+                        cpf [textMask]="{mask: MASKS.cpf.textMask}">
+                    <span class="text-danger" *ngIf="form.controls.responsavelCpf.invalid && form.controls.responsavelCpf.dirty">
+                        <p *ngIf="form.controls.responsavelCpf.errors.required">CPF é obrigatório!</p>
+                        <p *ngIf="form.controls.responsavelCpf.errors.cpf">CPF inválido!</p>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card shadow-sm p-3 mb-5 bg-white rounded">
+            <h4>Área plantada</h4>
+            <hr>
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="nome_ap1">Referência inicial</label>
+                    <input type="text" class="form-control" id="nome_ap1" formControlName="nome_ap1">
+                </div>
+                <div class="form-group col-md-2" hidden=true>
+                    <label for="ap1">Ponto inicial</label>
+                    <input type="number" class="form-control" id="ap1" formControlName="ap1" readonly>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="ap2">Distância 1 a 2 (KM)</label>
+                    <input type="number" class="form-control" id="ap2" formControlName="ap2">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="ap3">Distância 2 a 3 (KM)</label>
+                    <input type="number" class="form-control" id="ap3" formControlName="ap3">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="ap4">Distância 3 a 4 (KM)</label>
+                    <input type="number" class="form-control" id="ap4" formControlName="ap4">
+
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Modelo: {{model}}</label>
+                    <button class="form-control btn btn-outline-dark" (click)="calculateHaProduction()">
+                        <i class="material-icons">calculate</i>
+                    </button>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="sistemaPlantio">Sistema de plantio</label>
+                    <select class="form-control" formControlName="sistemaPlantio">
+                        <option value="convencional">Convencional</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="producaoHa">Produção (HA)</label>
+                    <input type="text" class="form-control" id="producaoHa" formControlName="producaoHa">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="totalProduzido">Total produzido colheita (T)</label>
+                    <input type="text" class="form-control" id="totalProduzido" formControlName="totalProduzido">
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm p-3 mb-5 bg-white rounded">
+            <h4>Área queimada</h4>
+            <hr>
+
+            <div class="form-row">
+                <div class="form-group col-md-2" hidden=true>
+                    <label for="aq1">Ponto inicial</label>
+                    <input type="text" class="form-control" id="aq1" formControlName="aq1" readonly>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="aq2">Distância 1 a 2 (KM)</label>
+                    <input type="text" class="form-control" id="aq2" formControlName="aq2">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="aq3">Distância 2 a 3 (KM)</label>
+                    <input type="text" class="form-control" id="aq3" formControlName="aq3">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="aq4">Distância 3 a 4 (KM)</label>
+                    <input type="text" class="form-control" id="aq4" formControlName="aq4">
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Modelo: {{model2}}</label>
+                    <button class="form-control btn btn-outline-dark" (click)="calculateBurnArea()">
+                        <i class="material-icons">calculate</i>
+                    </button>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="porcentagemAreaQueimada">% área queimada</label>
+                    <input type="text" class="form-control" id="porcentagemAreaQueimada" formControlName="porcentagemAreaQueimada" readonly [ngClass]="{ 'is-invalid': form.controls.porcentagemAreaQueimada.invalid, 'is-valid': form.controls.porcentagemAreaQueimada.valid }">
+                    <span class="text-danger" *ngIf="form.controls.porcentagemAreaQueimada.invalid">
+                        <p *ngIf="form.controls.porcentagemAreaQueimada.errors.invaliValue">Área queimada não pode ser
+                            maior que área de produção!</p>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm p-3 mb-5 bg-white rounded">
+            <h4>Corretivos</h4>
+            <hr>
+
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="calcarioCalcitico">Calcário calcitivo (Kg/T)</label>
+                    <input type="text" class="form-control" id="calcarioCalcitico" formControlName="calcarioCalcitico" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':calcarioCalciticoValidationResult == 0, 
+                        'my-style-orange': calcarioCalciticoValidationResult >= 0.1 && calcarioCalciticoValidationResult <= 0.25,
+                        'my-style-red':calcarioCalciticoValidationResult > 0.25
+                          
+                    }" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="calcarioDolomotico">Calcário dolomotico (Kg/T)</label>
+                    <input type="text" class="form-control" id="calcarioDolomotico" formControlName="calcarioDolomotico" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                            'my-style-green':calcarioDolomoticoValidationResult == 12,
+                            'my-style-orange': calcarioDolomoticoValidationResult > 12 && calcarioDolomoticoValidationResult <=15 || calcarioDolomoticoValidationResult >6 && calcarioDolomoticoValidationResult <12,
+                            'my-style-red':calcarioDolomoticoValidationResult > 15 || calcarioDolomoticoValidationResult <= 6
+                        }">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="gesso">Gesso (Kg/T)</label>
+                    <input type="text" class="form-control" id="gesso" formControlName="gesso" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':gessoValidationResult == 5,
+                        'my-style-orange': gessoValidationResult > 5 && gessoValidationResult < 6.2 || gessoValidationResult >= 2.5 && gessoValidationResult < 5,
+                        'my-style-red':gessoValidationResult >= 6.3 || gessoValidationResult < 2.5
+                    }">
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm p-3 mb-5 bg-white rounded">
+            <h4>Fertilizantes sintéticos</h4>
+            <hr>
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="ureia">Uréia (Kg/T)</label>
+                    <input type="text" class="form-control" id="ureia" formControlName="ureia" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':ureiaValidationResult == 2,
+                        'my-style-orange': ureiaValidationResult > 2 && ureiaValidationResult < 2.5 || ureiaValidationResult >=1.5 && ureiaValidationResult <2,
+                        'my-style-red':ureiaValidationResult >= 2.6 || ureiaValidationResult < 1.5
+                    }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="map1">MAP 1 (Kg/T)</label>
+                    <input type="text" class="form-control" id="map1" formControlName="map1" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':map1ValidationResult == 0, 
+                        'my-style-orange': map1ValidationResult >= 0.1 && map1ValidationResult <= 0.25,
+                        'my-style-red':map1ValidationResult > 0.25
+                    }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="map2">MAP 2 (Kg/T)</label>
+                    <input type="text" class="form-control" id="map2" formControlName="map2" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':map2ValidationResult == 0, 
+                        'my-style-orange': map2ValidationResult >= 0.1 && map2ValidationResult <= 0.25,
+                        'my-style-red':map2ValidationResult > 0.25
+                    }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="dap1">DAP 1 (Kg/T)</label>
+                    <input type="text" class="form-control" id="dap1" formControlName="dap1" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':dap1ValidationResult == 0, 
+                        'my-style-orange': dap1ValidationResult >= 0.1 && dap1ValidationResult <= 0.25,
+                        'my-style-red':dap1ValidationResult > 0.25
+                    }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="dap2">DAP 2 (Kg/T)</label>
+                    <input type="text" class="form-control" id="dap2" formControlName="dap2" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':dap2ValidationResult == 0, 
+                        'my-style-orange': dap2ValidationResult >= 0.1 && dap2ValidationResult <= 0.25,
+                        'my-style-red':dap2ValidationResult > 0.25
+                    }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="nitratoAmonio">Nitrato amônio (Kg/T)</label>
+                    <input type="text" class="form-control" id="nitratoAmonio" formControlName="nitratoAmonio" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':nitratoAmonioValidationResult == 0, 
+                        'my-style-orange': nitratoAmonioValidationResult >= 0.1 && nitratoAmonioValidationResult <= 0.25,
+                        'my-style-red':nitratoAmonioValidationResult > 0.25
+                    }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="uan">UAN (Kg/T)</label>
+                    <input type="text" class="form-control" id="uan" formControlName="uan" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':uanValidationResult == 0, 
+                        'my-style-orange': uanValidationResult >= 0.1 && uanValidationResult <= 0.25,
+                        'my-style-red':uanValidationResult > 0.25
+                    }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="amoniaAnidra">Amônia anidra (Kg/T)</label>
+                    <input type="text" class="form-control" id="amoniaAnidra" formControlName="amoniaAnidra" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':amoniaAnidraValidationResult == 0, 
+                        'my-style-orange': amoniaAnidraValidationResult >= 0.1 && amoniaAnidraValidationResult <= 0.25,
+                        'my-style-red':amoniaAnidraValidationResult > 0.25
+                    }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="sulfatoAmonio">Sulfato amônio (Kg/T)</label>
+                    <input type="text" class="form-control" id="sulfatoAmonio" formControlName="sulfatoAmonio" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':sulfatoAmonioValidationResult == 0, 
+                        'my-style-orange': sulfatoAmonioValidationResult >= 0.1 && sulfatoAmonioValidationResult <= 0.25,
+                        'my-style-red':sulfatoAmonioValidationResult > 0.25
+                    }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="can">CAN (Kg/T)</label>
+                    <input type="text" class="form-control" id="can" formControlName="can" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':canValidationResult == 0, 
+                        'my-style-orange': canValidationResult >= 0.1 && canValidationResult <= 0.25,
+                        'my-style-red':canValidationResult > 0.25
+                    }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="ssp">SSP (Kg/T)</label>
+                    <input type="text" class="form-control" id="ssp" formControlName="ssp" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':sspValidationResult == 1, 
+                        'my-style-orange': sspValidationResult >= 1.1 && sspValidationResult <= 1.25 || sspValidationResult <1,
+                        'my-style-red':sspValidationResult > 1.25
+                    }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="tsp">TSP (Kg/T)</label>
+                    <input type="text" class="form-control" id="tsp" formControlName="tsp" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':tspValidationResult == 0, 
+                        'my-style-orange': tspValidationResult >= 0.1 && tspValidationResult <= 0.25,
+                        'my-style-red':tspValidationResult > 0.25
+                    }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="kci">KCI (Kg/T)</label>
+                    <input type="text" class="form-control" id="kci" formControlName="kci" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':kciValidationResult == 2,
+                        'my-style-orange': kciValidationResult > 2 && kciValidationResult < 2.5 || kciValidationResult >=1.5 && kciValidationResult <2,
+                        'my-style-red':kciValidationResult >= 2.6 || kciValidationResult < 1.5
+                    }">
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm p-3 mb-5 bg-white rounded">
+            <h4>Fertilizantes Orgânicos/Organominerais</h4>
+            <hr>
+
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="vinhaca">Vinhaça (L/T)</label>
+                    <input type="text" class="form-control" id="vinhaca" formControlName="vinhaca" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':vinhacaValidationResult == 1000,
+                        'my-style-orange': vinhacaValidationResult > 1000 && vinhacaValidationResult < 1500 || vinhacaValidationResult >=500 && vinhacaValidationResult <1000,
+                        'my-style-red':vinhacaValidationResult >= 1500 || vinhacaValidationResult < 500
+                    }">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="tortaFiltroBaseUmida">Torta de Filtro (base úmida - KG/T)</label>
+                    <input type="text" class="form-control" id="tortaFiltroBaseUmida" formControlName="tortaFiltroBaseUmida" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                            'my-style-green':tortaFiltroBaseUmidaValidationResult == 42.8,
+                            'my-style-orange': tortaFiltroBaseUmidaValidationResult > 42.8 && tortaFiltroBaseUmidaValidationResult < 53.5 || tortaFiltroBaseUmidaValidationResult >=32.1 && tortaFiltroBaseUmidaValidationResult <42.8,
+                            'my-style-red':tortaFiltroBaseUmidaValidationResult >= 53.6 || tortaFiltroBaseUmidaValidationResult < 32.1
+                        }">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="cinzasFuligemBaseUmida">Cinzas e fuligem (base úmida - KG/T)</label>
+                    <input type="text" class="form-control" id="cinzasFuligemBaseUmida" formControlName="cinzasFuligemBaseUmida" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                            'my-style-green':cinzasFuligemBaseUmidaValidationResult == 10.1,
+                            'my-style-orange': cinzasFuligemBaseUmidaValidationResult > 10.1 && cinzasFuligemBaseUmidaValidationResult < 12.6 || cinzasFuligemBaseUmidaValidationResult >=7.57 && cinzasFuligemBaseUmidaValidationResult <10.1,
+                            'my-style-red':cinzasFuligemBaseUmidaValidationResult >= 10.2 || cinzasFuligemBaseUmidaValidationResult < 7.57
+                        }">
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm p-3 mb-5 bg-white rounded">
+            <h4>Combustíveis e eletricidade</h4>
+            <hr>
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="dieselB8">Diesel - B8 (L/T)</label>
+                    <input type="text" class="form-control" id="dieselB8" formControlName="dieselB8" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':dieselB8ValidationResult == 0, 
+                        'my-style-orange': dieselB8ValidationResult >= 0.1 && dieselB8ValidationResult <= 0.25,
+                        'my-style-red':dieselB8ValidationResult > 0.25
+                    }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="dieselB10">Diesel - B10 (L/T)</label>
+                    <input type="text" class="form-control" id="dieselB10" formControlName="dieselB10" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-orange': (dieselB10ValidationResult >= 3 && dieselB10ValidationResult < 6) || (dieselB10ValidationResult > 6 && dieselB10ValidationResult <= 9),
+                        'my-style-green':dieselB10ValidationResult == 6, 
+                        'my-style-red':dieselB10ValidationResult > 9 || dieselB10ValidationResult < 3
+                    }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="dieselBx">Diesel - BX (L/T)</label>
+                    <input type="text" class="form-control" id="dieselBx" formControlName="dieselBx" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':dieselBxValidationResult == 0, 
+                        'my-style-orange': dieselBxValidationResult >= 0.1 && dieselBxValidationResult <= 0.25,
+                        'my-style-red':dieselBxValidationResult > 0.25
+                    }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="dieselB20">Diesel - B20 (L/T)</label>
+                    <input type="text" class="form-control" id="dieselB20" formControlName="dieselB20" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':dieselB20ValidationResult == 0, 
+                        'my-style-orange': dieselB20ValidationResult >= 0.1 && dieselB20ValidationResult <= 0.25,
+                        'my-style-red':dieselB20ValidationResult > 0.25
+                    }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="dieselB30">Diesel - B30 (L/T)</label>
+                    <input type="text" class="form-control" id="dieselB30" formControlName="dieselB30" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':dieselB30ValidationResult == 0, 
+                        'my-style-orange': dieselB30ValidationResult >= 0.1 && dieselB30ValidationResult <= 0.25,
+                        'my-style-red':dieselB30ValidationResult > 0.25
+                    }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="biodieselB100">Biodiesel - B100 (L/T)</label>
+                    <input type="text" class="form-control" id="biodieselB100" formControlName="biodieselB100" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':biodieselB100ValidationResult == 0, 
+                        'my-style-orange': biodieselB100ValidationResult >= 0.1 && biodieselB100ValidationResult <= 0.25,
+                        'my-style-red':biodieselB100ValidationResult > 0.25
+                    }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="gasolina">Gasolina (L/T)</label>
+                    <input type="text" class="form-control" id="gasolina" formControlName="gasolina" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':gasolinaValidationResult == 0, 
+                        'my-style-orange': gasolinaValidationResult >= 0.1 && gasolinaValidationResult <= 0.25,
+                        'my-style-red':gasolinaValidationResult > 0.25
+                    }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="etanol">Etanol (L/T)</label>
+                    <input type="text" class="form-control" id="etanol" formControlName="etanol" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':etanolValidationResult == 0, 
+                        'my-style-orange': etanolValidationResult >= 0.1 && etanolValidationResult <= 0.25,
+                        'my-style-red':etanolValidationResult > 0.25
+                    }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="biometranoTerceiros">Bio. de terceiros (Nm3/T)</label>
+                    <input type="text" class="form-control" id="biometranoTerceiros" formControlName="biometranoTerceiros" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                            'my-style-green':biometranoTerceirosValidationResult == 0, 
+                            'my-style-orange': biometranoTerceirosValidationResult >= 0.1 && biometranoTerceirosValidationResult <= 0.25,
+                            'my-style-red':biometranoTerceirosValidationResult > 0.25
+                        }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="biometranoProprio">Bio. próprio (Nm3/T)</label>
+                    <input type="text" class="form-control" id="biometranoProprio" formControlName="biometranoProprio" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':biometranoProprioValidationResult == 0, 
+                        'my-style-orange': biometranoProprioValidationResult >= 0.1 && biometranoProprioValidationResult <= 0.25,
+                        'my-style-red':biometranoProprioValidationResult > 0.25
+                    }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="eletricidadeRede">Eletricidade da rede (kWh/t)</label>
+                    <input type="text" class="form-control" id="eletricidadeRede" formControlName="eletricidadeRede" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':eletricidadeRedeValidationResult == 0, 
+                        'my-style-orange': eletricidadeRedeValidationResult >= 0.1 && eletricidadeRedeValidationResult <= 0.25,
+                        'my-style-red':eletricidadeRedeValidationResult > 0.25
+                    }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="eletricidadePch">Eletricidade - PCH (kWh/t)</label>
+                    <input type="text" class="form-control" id="eletricidadePch" formControlName="eletricidadePch" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':eletricidadePchValidationResult == 0, 
+                        'my-style-orange': eletricidadePchValidationResult >= 0.1 && eletricidadePchValidationResult <= 0.25,
+                        'my-style-red':eletricidadePchValidationResult > 0.25
+                    }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="eletricidadeBiomassa">Eletricidade Bio. (kWh/t)</label>
+                    <input type="text" class="form-control" id="eletricidadeBiomassa" formControlName="eletricidadeBiomassa" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                            'my-style-green':eletricidadeBiomassaValidationResult == 0, 
+                            'my-style-orange': eletricidadeBiomassaValidationResult >= 0.1 && eletricidadeBiomassaValidationResult <= 0.25,
+                            'my-style-red':eletricidadeBiomassaValidationResult > 0.25
+                        }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="eletricidadeEolica">Eletricidade eólica (kWh/t)</label>
+                    <input type="text" class="form-control" id="eletricidadeEolica" formControlName="eletricidadeEolica" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                            'my-style-green':eletricidadeEolicaValidationResult == 0, 
+                            'my-style-orange': eletricidadeEolicaValidationResult >= 0.1 && eletricidadeEolicaValidationResult <= 0.25,
+                            'my-style-red':eletricidadeEolicaValidationResult > 0.25
+                        }">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="eletricidadeSolar">Eletricidade solar (kWh/t)</label>
+                    <input type="text" class="form-control" id="eletricidadeSolar" formControlName="eletricidadeSolar" (focusout)="calculateInputValuePorcentage($event)" [ngClass]="{
+                        'my-style-green':eletricidadeSolarValidationResult == 0, 
+                        'my-style-orange': eletricidadeSolarValidationResult >= 0.1 && eletricidadeSolarValidationResult <= 0.25,
+                        'my-style-red':eletricidadeSolarValidationResult > 0.25
+                    }">
+                </div>
+            </div>
+        </div>
+        <div class="card shadow-sm p-3 mb-5 bg-white rounded">
+            <h4>Crédito de carbono</h4>
+            <hr>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="prod">Produtividade de Etanol (L/Kg)</label>
+                    <input type="text" class="form-control" id="prod" formControlName="prod" readonly>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="totalEtanolProduzidoLitros">Etanol produzido (L)</label>
+                    <input type="text" class="form-control" id="totalEtanolProduzidoLitros" formControlName="totalEtanolProduzidoLitros" readonly>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="cFactor">Fator de Conversão (MJ/L)</label>
+                    <input type="text" class="form-control" id="cFactor" formControlName="cFactor" readonly>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label>&nbsp;</label>
+                    <button class="form-control btn btn-outline-dark" (click)="calculateCredit()">
+                        <i class="material-icons">calculate</i>
+                    </button>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label for="totalMj">Total MJ</label>
+                    <input type="text" class="form-control" id="totalMj" formControlName="totalMj" readonly>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="grade">Emissões do processo (gCO2e/T)</label>
+                    <input type="text" class="form-control" id="gradeP" formControlName="gradeP" readonly>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="grade">Em. de background (gCO2e/T)</label>
+                    <input type="text" class="form-control" id="gradeB" formControlName="gradeB" readonly>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="grade">Nota (KgCO2e/T)</label>
+                    <input type="text" class="form-control" id="grade" formControlName="grade" readonly>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="totalCreditoCarbono">Crédito de Carbono</label>
+                    <input type="text" class="form-control" id="totalCreditoCarbono" formControlName="totalCreditoCarbono" readonly>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-right">
+            <button type="button" class="btn btn-outline-dark" (click)="insert()" [disabled]="form.invalid">Cadastrar</button>
+        </div>
+    </form>
+</section>

@@ -1,0 +1,35 @@
+<section id="loginForm">
+    <div class="card bg-light centered">
+        <div class="card-header bg-light text-center">
+            <h5>E-ProAr</h5>
+        </div>
+        <div class="card-body" id="loginCard">
+            <form [formGroup]="form" id="">
+                <div class="form-group row">
+                    <label for="email" class="col-sm-3 col-form-label col-form-label-md">Email</label>
+                    <div class="col-sm-9">
+                        <input type="email" class="form-control" id="email" formControlName="email"
+                            formControlName="email"
+                            [ngClass]="{ 'is-invalid': form.controls.email.invalid && form.controls.email.dirty, 'is-valid': form.controls.email.valid }">
+                        <small class="text-danger" *ngIf="form.controls.email.invalid && form.controls.email.dirty">Este campo é obrigatório.</small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="password" class="col-sm-3 col-form-label col-form-label-md">Senha</label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control" id="password" formControlName="password"
+                            formControlName="password"
+                            [ngClass]="{ 'is-invalid': form.controls.password.invalid && form.controls.email.dirty, 'is-valid': form.controls.password.valid }">
+                        <small class="text-danger" *ngIf="form.controls.password.invalid && form.controls.email.dirty">Este campo é
+                            obrigatório.</small>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button (click)="login()" type="submit" class="btn btn-block text-white btn-dark">Entrar</button>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer bg-light text-center"><small>e-ProAr®<br>Todos os direitos reservados</small>
+        </div>
+    </div>
+</section>

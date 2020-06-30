@@ -1,0 +1,25 @@
+<div class="page-container">
+    <div class="sidebar" *ngIf="userEmail !== ''">
+        <p routerLink="/home" class="paragraph">e-ProAr</p>
+        <div class="list-items">
+            <a routerLink="/home" routerLinkActive="select" class="list-item">
+                <i class="material-icons">add</i>
+                Cadastro
+            </a>
+            <a routerLink="/list" routerLinkActive="select" class="list-item">
+                <i class="material-icons">view_list</i>
+                Lista
+            </a>
+        </div>
+        <a routerLinkActive="select" class="list-item logout" id="font">
+            <i class="material-icons">account_circle</i>
+            {{userEmail}}
+        </a>
+        <a routerLinkActive="select" class="list-item logout" id="font" (click)="logout()">
+            <i class="material-icons">keyboard_backspace</i>
+            Logout
+        </a>
+    </div>
+    <div class="page-content-container">
+        <router-outlet></router-outlet>
+    </div>

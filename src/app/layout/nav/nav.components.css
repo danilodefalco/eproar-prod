@@ -1,0 +1,82 @@
+.page-container {
+    display: grid;
+    grid-template-columns: 25vw auto;
+    height: 100%;
+}
+.page-content-container {
+    padding: 2%;
+    width: 100%;
+    grid-column-start: 2;
+}
+.sidebar {
+    position: fixed;
+    height: 100%;
+    width: 20%;
+    background: rgba(24, 50, 62, 1);
+}
+.list-items {
+    height: 50%;
+    display: flex;
+    margin-top: 30%;
+    flex-direction: column;
+}
+.list-item {
+    display: flex;
+    align-items: center;
+    position: relative;
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.85);
+    padding: 3% 5%;
+    cursor: pointer;
+    text-decoration: none;
+}
+.list-item:hover {
+    color: white;
+}
+.list-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 1%;
+    background-color: palevioletred;
+    opacity: 0;
+    transform: scaleY(0);
+    transition: transform 0.2s; opacity: 0.2s;
+}
+.list-item:hover::before {
+    opacity: 0.35;
+    transform: scaleY(0.5) scaleX(2);
+}
+.list-item.select::before {
+    opacity: 1;
+    transform: scaleY(1);
+}
+.list-item i.material-icons {
+    margin-right: 7%;
+    font-size: 24px;
+}
+.paragraph {
+    width: 100%;
+    margin-top: 10%;
+    display: flex;
+    justify-content: center;
+    font-family: 'Fredoka One', cursive;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+}
+.logout {
+    font-size: 15px;
+    margin-top: 5%;
+    display: flex;
+    align-items: flex-end;
+}
+.logout i.material-icons {
+    font-size: 15px;
+}
+
+#font {
+    font-size: 13px;
+}
