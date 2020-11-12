@@ -1,8 +1,6 @@
 export const environment = {
   production: true,
   firebase:{
-    apiKey: 'AIzaSyCPdOU-IsV1IcDmIhCWOf90uwBneek9DVc',
-    authDomain: 'proar-c8c60.firebaseapp.com',
     databaseURL: 'https://proar-c8c60.firebaseio.com',
     projectId: 'proar-c8c60',
     storageBucket: 'proar-c8c60.appspot.com',
